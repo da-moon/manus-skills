@@ -28,13 +28,46 @@ These skills are derived from GSD v1.29.0 (`604a78b`). Use the `gsd-update` skil
 
 ## Installation
 
-### Import to Manus
+### Import via Manus Web UI
 
-Each skill is a self-contained directory under `skills/`. To use in Manus:
+Manus supports importing skills directly from public GitHub repositories through the **Import from GitHub** feature in Settings > Skills > + Add > Import from GitHub.
 
-1. Import the `gsd-core` skill first (all other skills depend on it)
-2. Import any additional skills you need
-3. Reference skills in your Manus tasks with `/skill-name`
+Because this repository is a monorepo containing multiple skills, you cannot import the repo root URL directly. Instead, import each skill individually using its subdirectory URL. **You must import `gsd-core` first** because all other skills (except `gsd-update`) depend on its shared scripts at runtime.
+
+#### Step 1: Import gsd-core (required)
+
+```
+https://github.com/da-moon/manus-skills/tree/master/skills/gsd-core
+```
+
+#### Step 2: Import additional skills
+
+Import any combination of the skills below. All of them require `gsd-core` to be installed first.
+
+| Skill | Import URL |
+|---|---|
+| gsd-project-setup | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-project-setup` |
+| gsd-phase-planner | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-phase-planner` |
+| gsd-phase-executor | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-phase-executor` |
+| gsd-milestone-manager | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-milestone-manager` |
+| gsd-code-reviewer | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-code-reviewer` |
+| gsd-debugger | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-debugger` |
+| gsd-testing | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-testing` |
+| gsd-research | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-research` |
+| gsd-session-manager | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-session-manager` |
+| gsd-workspace-manager | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-workspace-manager` |
+| gsd-ui-developer | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-ui-developer` |
+| gsd-git-shipper | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-git-shipper` |
+| gsd-manager-mode | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-manager-mode` |
+| gsd-update | `https://github.com/da-moon/manus-skills/tree/master/skills/gsd-update` |
+
+#### Important Notes
+
+**Dependency on gsd-core.** Thirteen of the fifteen skills call shared Python scripts located at `/home/ubuntu/skills/gsd-core/scripts/` via hardcoded paths. If `gsd-core` is not installed, those skills will fail at runtime with `FileNotFoundError`. The Agent Skills specification does not support a formal `requires` or `depends-on` field, so this dependency is enforced only by the prerequisite instruction in each skill's SKILL.md body.
+
+**No live sync with Git.** After importing through the web UI, skills are copied into your Manus account. Changes pushed to this repository will not propagate automatically. To pick up updates, you must re-import each skill individually or use the `gsd-update` skill from within a Manus session.
+
+**No bulk import.** The Manus web UI imports one skill at a time. There is no batch or monorepo import option. Each of the URLs above must be imported separately.
 
 ### Quick Start
 
