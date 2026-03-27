@@ -5,9 +5,9 @@ description: Manage GSD workspaces including multi-repo setups, workspace cleanu
 
 # GSD Workspace Manager
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Manage GSD workspace structure, multi-repo setups, configuration, and cleanup.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -40,7 +40,7 @@ For the current workspace, show:
 
 ```bash
 du -sh .gsd/
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py snapshot
+python3 /home/ubuntu/skills/gsd-workspace-manager/scripts/gsd_state.py snapshot
 ```
 
 ## Settings Management
@@ -70,7 +70,7 @@ Allow the user to change any setting. Update `.gsd/config.json` using the `file`
 
 Commit:
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "chore: update project settings"
+python3 /home/ubuntu/skills/gsd-workspace-manager/scripts/gsd_commit.py "chore: update project settings"
 ```
 
 ## Multi-Repo Workspace

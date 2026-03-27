@@ -20,6 +20,10 @@ import subprocess
 import sys
 
 
+# Maps upstream file path prefixes to the affected skill(s).
+# Since gsd-core has been eliminated, shared scripts are distributed
+# across all skills that use them. Changes to upstream lib/ or templates/
+# fan out to every skill containing a copy of the affected script.
 SKILL_FILE_MAP = {
     "commands/gsd/new-project": "gsd-project-setup",
     "commands/gsd/plan-phase": "gsd-phase-planner",
@@ -56,10 +60,34 @@ SKILL_FILE_MAP = {
     "commands/gsd/pr": "gsd-git-shipper",
     "commands/gsd/backlog": "gsd-git-shipper",
     "commands/gsd/manage": "gsd-manager-mode",
-    "get-shit-done/bin/lib/": "gsd-core",
+    "get-shit-done/bin/lib/": "shared-scripts",
     "get-shit-done/workflows/": "multiple",
     "agents/": "review",
-    "templates/": "gsd-core",
+    "templates/": "shared-scripts",
+}
+
+# Maps each distributed script to all skills that contain a copy.
+# When upstream changes affect shared scripts (lib/ or templates/),
+# ALL skills containing that script need updating.
+SCRIPT_SKILL_MAP = {
+    "gsd_commit.py": [
+        "gsd-project-setup", "gsd-phase-planner", "gsd-phase-executor",
+        "gsd-milestone-manager", "gsd-session-manager", "gsd-workspace-manager",
+        "gsd-code-reviewer", "gsd-git-shipper", "gsd-research",
+    ],
+    "gsd_init.py": [
+        "gsd-project-setup",
+    ],
+    "gsd_roadmap.py": [
+        "gsd-phase-planner", "gsd-phase-executor", "gsd-milestone-manager",
+        "gsd-session-manager", "gsd-code-reviewer", "gsd-git-shipper",
+        "gsd-research", "gsd-manager-mode",
+    ],
+    "gsd_state.py": [
+        "gsd-project-setup", "gsd-phase-planner", "gsd-phase-executor",
+        "gsd-milestone-manager", "gsd-session-manager", "gsd-workspace-manager",
+        "gsd-git-shipper", "gsd-manager-mode", "gsd-debugger",
+    ],
 }
 
 WORKFLOW_SKILL_MAP = {
@@ -88,13 +116,25 @@ def run_cmd(cmd, cwd=None):
     return result.stdout.strip()
 
 
+def get_all_script_skills():
+    """Get the union of all skills that contain shared scripts."""
+    all_skills = set()
+    for skills in SCRIPT_SKILL_MAP.values():
+        all_skills.update(skills)
+    return all_skills
+
+
 def map_file_to_skill(filepath):
     """Map a changed file path to the affected skill(s)."""
     skills = set()
 
     for pattern, skill in SKILL_FILE_MAP.items():
         if filepath.startswith(pattern):
-            if skill == "multiple":
+            if skill == "shared-scripts":
+                # Upstream lib/ or templates/ changed — fan out to all
+                # skills that contain copies of shared scripts.
+                skills.update(get_all_script_skills())
+            elif skill == "multiple":
                 # Map workflow files to specific skills
                 basename = os.path.basename(filepath).replace(".md", "")
                 for wf_pattern, wf_skill in WORKFLOW_SKILL_MAP.items():

@@ -5,9 +5,9 @@ description: Manage milestone lifecycle including completion, archiving, gap ana
 
 # GSD Milestone Manager
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Manage the full milestone lifecycle: completion, archiving, retrospective, gap analysis, and next milestone setup.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ When the user says "complete milestone", "milestone done", "audit milestone", or
 ### Step 1: Verify All Phases Complete
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py analyze
+python3 /home/ubuntu/skills/gsd-milestone-manager/scripts/gsd_roadmap.py analyze
 ```
 
 Check that all phases have `disk_status: "complete"` and `progress_percent: 100`.
@@ -116,7 +116,7 @@ Review and update `.gsd/PROJECT.md`:
 ### Step 7: Commit Everything
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: complete milestone [version]"
+python3 /home/ubuntu/skills/gsd-milestone-manager/scripts/gsd_commit.py "docs: complete milestone [version]"
 ```
 
 ## Audit Milestone
@@ -124,8 +124,8 @@ python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: complete miles
 When the user says "audit", "check progress", or "where are we":
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py analyze
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py snapshot
+python3 /home/ubuntu/skills/gsd-milestone-manager/scripts/gsd_roadmap.py analyze
+python3 /home/ubuntu/skills/gsd-milestone-manager/scripts/gsd_state.py snapshot
 ```
 
 Present a comprehensive status report:
@@ -158,7 +158,7 @@ After completing a milestone:
 5. Carry over any deferred requirements
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py patch \
+python3 /home/ubuntu/skills/gsd-milestone-manager/scripts/gsd_state.py patch \
   --milestone "v[next] — [Name]" \
   --current-phase "1" \
   --status "Not Started" \

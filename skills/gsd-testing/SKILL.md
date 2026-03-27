@@ -5,9 +5,9 @@ description: Generate and manage tests for project code. Creates unit tests, int
 
 # GSD Testing
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Generate tests for project code and manage todo items for tracking work.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -78,7 +78,6 @@ Test file structure (Python/pytest example):
 
 import pytest
 from module import function_under_test
-
 
 class TestFunctionName:
     """Tests for function_name."""

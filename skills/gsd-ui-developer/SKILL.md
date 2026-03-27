@@ -5,9 +5,9 @@ description: Specialized workflow for UI/frontend phase execution and review. Ha
 
 # GSD UI Developer
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Specialized workflow for UI/frontend phases. Adds visual verification, UI specification, and browser-based validation on top of standard phase execution.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 

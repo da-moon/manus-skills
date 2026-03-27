@@ -5,9 +5,9 @@ description: High-level project orchestration mode that coordinates across all G
 
 # GSD Manager Mode
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Orchestration mode that coordinates across all GSD skills to drive projects end-to-end. Acts as the project manager, deciding what to do next and delegating to the right skill.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -23,8 +23,8 @@ When the user says "manage this project", "autonomous mode", "drive this end to 
 ### Step 1: Assess State
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py snapshot
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py analyze
+python3 /home/ubuntu/skills/gsd-manager-mode/scripts/gsd_state.py snapshot
+python3 /home/ubuntu/skills/gsd-manager-mode/scripts/gsd_roadmap.py analyze
 ```
 
 ### Step 2: Decision Tree

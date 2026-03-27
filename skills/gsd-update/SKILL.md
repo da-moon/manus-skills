@@ -87,9 +87,25 @@ Categorize changes by impact area:
 | `commands/gsd/ship*`, `commands/gsd/pr*` | gsd-git-shipper |
 | `commands/gsd/manage*` | gsd-manager-mode |
 | `get-shit-done/workflows/*` | Multiple (map by workflow name) |
-| `get-shit-done/bin/lib/*.cjs` | gsd-core (shared scripts) |
+| `get-shit-done/bin/lib/*.cjs` | All skills with shared scripts (see fan-out below) |
 | `agents/*` | Review for behavioral changes |
-| `templates/*` | gsd-core templates, skill-specific templates |
+| `templates/*` | All skills with shared scripts (see fan-out below) |
+
+### Shared Script Fan-Out
+
+Shared Python scripts (`gsd_commit.py`, `gsd_init.py`, `gsd_roadmap.py`, `gsd_state.py`) are distributed across multiple skills. When upstream changes affect `bin/lib/` or `templates/`, update the corresponding Python script in **every** skill that contains a copy:
+
+| Script | Skills Containing Copy |
+|---|---|
+| `gsd_commit.py` | gsd-project-setup, gsd-phase-planner, gsd-phase-executor, gsd-milestone-manager, gsd-session-manager, gsd-workspace-manager, gsd-code-reviewer, gsd-git-shipper, gsd-research |
+| `gsd_init.py` | gsd-project-setup |
+| `gsd_roadmap.py` | gsd-phase-planner, gsd-phase-executor, gsd-milestone-manager, gsd-session-manager, gsd-code-reviewer, gsd-git-shipper, gsd-research, gsd-manager-mode |
+| `gsd_state.py` | gsd-project-setup, gsd-phase-planner, gsd-phase-executor, gsd-milestone-manager, gsd-session-manager, gsd-workspace-manager, gsd-git-shipper, gsd-manager-mode, gsd-debugger |
+
+When updating a shared script:
+1. Update the script logic once
+2. Copy the updated script to every skill listed above
+3. Ensure all copies are identical
 
 ### Step 5: Read Changed Files
 
@@ -115,9 +131,10 @@ For each affected skill:
 4. Update the SKILL.md
 5. Update any scripts, references, or templates
 
-**For gsd-core shared scripts:**
+**For shared script updates:**
 - If CJS logic changed, update the corresponding Python script
 - Test the updated script
+- Copy the updated script to all skills that contain it (see fan-out table above)
 - Ensure backward compatibility with existing `.gsd/` directories
 
 ### Step 7: Update Version Tracking
@@ -202,6 +219,5 @@ If upstream adds entirely new commands:
 
 ## Related Skills
 
-- `gsd-core` — Shared scripts may need updating
 - `gsd-manager-mode` — Decision tree may need updating
 - All other GSD skills — may be affected by upstream changes

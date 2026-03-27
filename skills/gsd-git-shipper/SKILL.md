@@ -5,9 +5,9 @@ description: Handle git shipping operations including creating pull requests, ma
 
 # GSD Git Shipper
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Handle git shipping: PRs, branch management, release tags, and backlog tracking.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -22,8 +22,8 @@ When the user says "ship it", "create PR", "merge", "release", or "tag":
 
 Check that the current phase/milestone is complete:
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py snapshot
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py analyze
+python3 /home/ubuntu/skills/gsd-git-shipper/scripts/gsd_state.py snapshot
+python3 /home/ubuntu/skills/gsd-git-shipper/scripts/gsd_roadmap.py analyze
 ```
 
 Verify:
@@ -72,8 +72,8 @@ gh pr create \
 ### Step 4: Update State
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py update "Status" "PR Created"
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: update state after PR creation"
+python3 /home/ubuntu/skills/gsd-git-shipper/scripts/gsd_state.py update "Status" "PR Created"
+python3 /home/ubuntu/skills/gsd-git-shipper/scripts/gsd_commit.py "docs: update state after PR creation"
 ```
 
 ## Branch Management

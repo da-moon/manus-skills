@@ -5,9 +5,9 @@ description: Systematic debugging and forensic analysis for project issues. Prov
 
 # GSD Debugger
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Systematic debugging with structured diagnosis, root cause analysis, and documented resolution.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -162,7 +162,7 @@ When debugging during phase execution:
 
 Update state if debugging causes delays:
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py update "Status" "Debugging"
+python3 /home/ubuntu/skills/gsd-debugger/scripts/gsd_state.py update "Status" "Debugging"
 ```
 
 ## Related Skills

@@ -5,15 +5,15 @@ description: Initialize new GSD projects through a structured workflow of deep q
 
 # GSD Project Setup
 
-**Prerequisite:** Read and install `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Initialize new projects through a structured flow: questioning, research (optional), requirements, roadmap.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
 When the user says "start a new project", "initialize GSD", or "set up project planning":
 
-1. Run `python3 /home/ubuntu/skills/gsd-core/scripts/gsd_init.py` to create `.gsd/`
+1. Run `python3 /home/ubuntu/skills/gsd-project-setup/scripts/gsd_init.py` to create `.gsd/`
 2. Follow the workflow below
 
 ## Workflow
@@ -21,7 +21,7 @@ When the user says "start a new project", "initialize GSD", or "set up project p
 ### Step 1: Pre-Flight Checks
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_init.py
+python3 /home/ubuntu/skills/gsd-project-setup/scripts/gsd_init.py
 ```
 
 Parse JSON output. If `.gsd/` already has PROJECT.md, project is initialized — suggest `gsd-phase-planner`. If no `.git`, run `git init`.
@@ -92,7 +92,7 @@ This document evolves at phase transitions and milestone boundaries.
 *Last updated: [date] after initialization*
 ```
 
-Commit: `python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: initialize project" --files .gsd/PROJECT.md`
+Commit: `python3 /home/ubuntu/skills/gsd-project-setup/scripts/gsd_commit.py "docs: initialize project" --files .gsd/PROJECT.md`
 
 ### Step 5: Workflow Preferences
 
@@ -119,7 +119,7 @@ If research enabled, use the `search` tool to research 4 dimensions:
 
 Write to `.gsd/research/`: `STACK.md`, `FEATURES.md`, `ARCHITECTURE.md`, `PITFALLS.md`, `SUMMARY.md`
 
-Commit: `python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: project research"`
+Commit: `python3 /home/ubuntu/skills/gsd-project-setup/scripts/gsd_commit.py "docs: project research"`
 
 ### Step 7: Requirements
 
@@ -131,8 +131,8 @@ Create `.gsd/ROADMAP.md` with phased execution plan. Each phase has: goal, depen
 
 Update state and commit:
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py update "Status" "Ready"
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: create roadmap"
+python3 /home/ubuntu/skills/gsd-project-setup/scripts/gsd_state.py update "Status" "Ready"
+python3 /home/ubuntu/skills/gsd-project-setup/scripts/gsd_commit.py "docs: create roadmap"
 ```
 
 ### Step 9: Completion

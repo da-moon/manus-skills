@@ -5,9 +5,9 @@ description: Perform structured code reviews, verification against requirements,
 
 # GSD Code Reviewer
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Structured code review and verification for phase deliverables. Reviews implementation against plans, requirements, and engineering best practices.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -117,7 +117,7 @@ Present findings to user. If changes requested:
 
 Commit:
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: code review for phase N"
+python3 /home/ubuntu/skills/gsd-code-reviewer/scripts/gsd_commit.py "docs: code review for phase N"
 ```
 
 ## User Acceptance Testing (UAT)
@@ -166,7 +166,7 @@ Walk the user through each test scenario. Record results in the UAT document.
 Quick verification that phase deliverables match success criteria:
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py get-phase <N>
+python3 /home/ubuntu/skills/gsd-code-reviewer/scripts/gsd_roadmap.py get-phase <N>
 ```
 
 Check each success criterion from the phase definition. Write `XX-VERIFICATION.md`:

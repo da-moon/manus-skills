@@ -5,9 +5,9 @@ description: Create, modify, and organize execution plans for roadmap phases. Ha
 
 # GSD Phase Planner
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Create executable PLAN.md files for roadmap phases. Default flow: Research (if enabled) then Plan then Verify.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -21,14 +21,14 @@ When the user says "plan phase N", "create plans for phase N", or "what should w
 ### Step 1: Initialize
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py get-phase <N>
+python3 /home/ubuntu/skills/gsd-phase-planner/scripts/gsd_roadmap.py get-phase <N>
 ```
 
 Parse JSON for: `phase_number`, `phase_name`, `goal`, `success_criteria`, `section`.
 
 If phase not found, show available phases:
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py analyze
+python3 /home/ubuntu/skills/gsd-phase-planner/scripts/gsd_roadmap.py analyze
 ```
 
 Check if phase directory exists. If not, create it:
@@ -133,9 +133,9 @@ If issues found, revise the plan (max 3 revision iterations).
 ### Step 6: Commit and Update State
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: plan phase N" --files .gsd/phases/XX-name/
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py patch --current-phase "N" --phase-name "[Name]" --plan "0 of M" --status "Planned"
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: update state for phase N"
+python3 /home/ubuntu/skills/gsd-phase-planner/scripts/gsd_commit.py "docs: plan phase N" --files .gsd/phases/XX-name/
+python3 /home/ubuntu/skills/gsd-phase-planner/scripts/gsd_state.py patch --current-phase "N" --phase-name "[Name]" --plan "0 of M" --status "Planned"
+python3 /home/ubuntu/skills/gsd-phase-planner/scripts/gsd_commit.py "docs: update state for phase N"
 ```
 
 ## Phase CRUD Operations

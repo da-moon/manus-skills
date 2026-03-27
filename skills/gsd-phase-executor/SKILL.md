@@ -5,9 +5,9 @@ description: Execute phase plans created by gsd-phase-planner. Handles sequentia
 
 # GSD Phase Executor
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Execute PLAN.md files for a roadmap phase. Reads plans, implements the work, writes SUMMARY.md files, and tracks progress.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -22,7 +22,7 @@ When the user says "execute phase N", "do phase N", "start working on phase N", 
 ### Step 1: Initialize
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py get-phase <N>
+python3 /home/ubuntu/skills/gsd-phase-executor/scripts/gsd_roadmap.py get-phase <N>
 ```
 
 Load phase info: `phase_number`, `phase_name`, `goal`, `success_criteria`.
@@ -56,7 +56,7 @@ git checkout -b <branch-name> 2>/dev/null || git checkout <branch-name>
 ### Step 3: Update State
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py patch \
+python3 /home/ubuntu/skills/gsd-phase-executor/scripts/gsd_state.py patch \
   --current-phase "N" \
   --phase-name "[Name]" \
   --status "In Progress" \
@@ -108,12 +108,12 @@ SUMMARY.md structure:
 ```bash
 git add -A
 git commit -m "feat: phase N plan M - [title]"
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: summary for phase N plan M"
+python3 /home/ubuntu/skills/gsd-phase-executor/scripts/gsd_commit.py "docs: summary for phase N plan M"
 ```
 
 6. **Update state:**
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py update "Plan" "M of T"
+python3 /home/ubuntu/skills/gsd-phase-executor/scripts/gsd_state.py update "Plan" "M of T"
 ```
 
 ### Step 6: Post-Phase Completion
@@ -122,12 +122,12 @@ After all plans are executed:
 
 1. **Update roadmap progress:**
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py update-progress <N>
+python3 /home/ubuntu/skills/gsd-phase-executor/scripts/gsd_roadmap.py update-progress <N>
 ```
 
 2. **Update state:**
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py patch \
+python3 /home/ubuntu/skills/gsd-phase-executor/scripts/gsd_state.py patch \
   --status "Phase N Complete" \
   --last-activity "$(date -u +%Y-%m-%d)"
 ```

@@ -5,9 +5,9 @@ description: Manage work sessions including pause/resume, session reports, conte
 
 # GSD Session Manager
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Manage work sessions for continuity across Manus task boundaries. Handles pause, resume, session reports, and context preservation.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -23,7 +23,7 @@ When the user needs to stop work and resume later:
 ### Step 1: Capture Current State
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py snapshot
+python3 /home/ubuntu/skills/gsd-session-manager/scripts/gsd_state.py snapshot
 ```
 
 ### Step 2: Write Session Report
@@ -64,10 +64,10 @@ Create `.gsd/sessions/session-[date].md`:
 ### Step 3: Update State
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py patch \
+python3 /home/ubuntu/skills/gsd-session-manager/scripts/gsd_state.py patch \
   --status "Paused" \
   --last-activity "$(date -u +%Y-%m-%d)"
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: session pause report"
+python3 /home/ubuntu/skills/gsd-session-manager/scripts/gsd_commit.py "docs: session pause report"
 ```
 
 ## Resume Session
@@ -86,7 +86,7 @@ Read it to understand where work left off.
 ### Step 2: Load Current State
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py snapshot
+python3 /home/ubuntu/skills/gsd-session-manager/scripts/gsd_state.py snapshot
 ```
 
 ### Step 3: Present Context
@@ -100,7 +100,7 @@ Show the user:
 ### Step 4: Update State and Continue
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py patch \
+python3 /home/ubuntu/skills/gsd-session-manager/scripts/gsd_state.py patch \
   --status "In Progress" \
   --last-activity "$(date -u +%Y-%m-%d)"
 ```
@@ -114,8 +114,8 @@ When the user asks "where are we", "status", or "what's the progress":
 ### Step 1: Gather All Context
 
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_state.py snapshot
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py analyze
+python3 /home/ubuntu/skills/gsd-session-manager/scripts/gsd_state.py snapshot
+python3 /home/ubuntu/skills/gsd-session-manager/scripts/gsd_roadmap.py analyze
 ```
 
 ### Step 2: Present Comprehensive Status

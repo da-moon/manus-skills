@@ -5,9 +5,9 @@ description: Conduct deep research for project phases using Manus search and bro
 
 # GSD Research
 
-**Prerequisite:** Read `gsd-core` skill first: `read /home/ubuntu/skills/gsd-core/SKILL.md`
-
 Deep research for project phases using Manus native `search` and `browser` tools. Replaces GSD's subagent-based research with Manus's wide-research capabilities.
+
+For `.gsd/` directory conventions and file formats, see `references/gsd-conventions.md`.
 
 ## Quick Start
 
@@ -24,7 +24,7 @@ Use when planning a phase that needs technical investigation before creating pla
 
 Read the phase from ROADMAP.md:
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_roadmap.py get-phase <N>
+python3 /home/ubuntu/skills/gsd-research/scripts/gsd_roadmap.py get-phase <N>
 ```
 
 Identify what needs researching based on the phase goal and requirements.
@@ -102,7 +102,7 @@ Create `XX-RESEARCH.md` in the phase directory:
 
 Commit:
 ```bash
-python3 /home/ubuntu/skills/gsd-core/scripts/gsd_commit.py "docs: research for phase N"
+python3 /home/ubuntu/skills/gsd-research/scripts/gsd_commit.py "docs: research for phase N"
 ```
 
 ## Codebase Mapping

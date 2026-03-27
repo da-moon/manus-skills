@@ -8,23 +8,24 @@ These skills are derived from GSD v1.29.0 (`604a78b`). Use the `gsd-update` skil
 
 ## Skill Catalog
 
-| Skill | Description | Depends On |
-|---|---|---|
-| **gsd-core** | Shared scripts, templates, references, and `.gsd/` directory conventions | None |
-| **gsd-project-setup** | Initialize projects: questioning, research, requirements, roadmap | gsd-core |
-| **gsd-phase-planner** | Create, modify, and organize execution plans for roadmap phases | gsd-core |
-| **gsd-phase-executor** | Execute phase plans: implement code, track progress, write summaries | gsd-core |
-| **gsd-milestone-manager** | Milestone lifecycle: completion, archiving, gap analysis, retrospective | gsd-core |
-| **gsd-code-reviewer** | Structured code review, verification, and user acceptance testing | gsd-core |
-| **gsd-debugger** | Systematic debugging: diagnosis, root cause analysis, resolution | gsd-core |
-| **gsd-testing** | Test generation (unit, integration, e2e) and todo management | gsd-core |
-| **gsd-research** | Deep research using Manus search/browser tools and codebase mapping | gsd-core |
-| **gsd-session-manager** | Pause/resume sessions, context handoff, session reports | gsd-core |
-| **gsd-workspace-manager** | Workspace CRUD, multi-repo setups, settings, cleanup | gsd-core |
-| **gsd-ui-developer** | UI/frontend phase execution with browser-based visual verification | gsd-core |
-| **gsd-git-shipper** | Git shipping: PRs, branch management, release tags, backlog | gsd-core |
-| **gsd-manager-mode** | Autonomous orchestration across all skills for end-to-end delivery | gsd-core |
-| **gsd-update** | Update skills from upstream GSD repository | None |
+Every skill is fully self-contained and can be imported independently in any order.
+
+| Skill | Description |
+|---|---|
+| **gsd-project-setup** | Initialize projects: questioning, research, requirements, roadmap |
+| **gsd-phase-planner** | Create, modify, and organize execution plans for roadmap phases |
+| **gsd-phase-executor** | Execute phase plans: implement code, track progress, write summaries |
+| **gsd-milestone-manager** | Milestone lifecycle: completion, archiving, gap analysis, retrospective |
+| **gsd-code-reviewer** | Structured code review, verification, and user acceptance testing |
+| **gsd-debugger** | Systematic debugging: diagnosis, root cause analysis, resolution |
+| **gsd-testing** | Test generation (unit, integration, e2e) and todo management |
+| **gsd-research** | Deep research using Manus search/browser tools and codebase mapping |
+| **gsd-session-manager** | Pause/resume sessions, context handoff, session reports |
+| **gsd-workspace-manager** | Workspace CRUD, multi-repo setups, settings, cleanup |
+| **gsd-ui-developer** | UI/frontend phase execution with browser-based visual verification |
+| **gsd-git-shipper** | Git shipping: PRs, branch management, release tags, backlog |
+| **gsd-manager-mode** | Autonomous orchestration across all skills for end-to-end delivery |
+| **gsd-update** | Update skills from upstream GSD repository |
 
 ## Installation
 
@@ -32,17 +33,7 @@ These skills are derived from GSD v1.29.0 (`604a78b`). Use the `gsd-update` skil
 
 Manus supports importing skills directly from public GitHub repositories through the **Import from GitHub** feature in Settings > Skills > + Add > Import from GitHub.
 
-Because this repository is a monorepo containing multiple skills, you cannot import the repo root URL directly. Instead, import each skill individually using its subdirectory URL. **You must import `gsd-core` first** because all other skills (except `gsd-update`) depend on its shared scripts at runtime.
-
-#### Step 1: Import gsd-core (required)
-
-```
-https://github.com/da-moon/manus-skills/tree/master/skills/gsd-core
-```
-
-#### Step 2: Import additional skills
-
-Import any combination of the skills below. All of them require `gsd-core` to be installed first.
+Because this repository is a monorepo containing multiple skills, you cannot import the repo root URL directly. Instead, import each skill individually using its subdirectory URL. Skills can be imported in **any order** — each one is fully self-contained with its own scripts, references, and convention documentation.
 
 | Skill | Import URL |
 |---|---|
@@ -63,8 +54,6 @@ Import any combination of the skills below. All of them require `gsd-core` to be
 
 #### Important Notes
 
-**Dependency on gsd-core.** Thirteen of the fifteen skills call shared Python scripts located at `/home/ubuntu/skills/gsd-core/scripts/` via hardcoded paths. If `gsd-core` is not installed, those skills will fail at runtime with `FileNotFoundError`. The Agent Skills specification does not support a formal `requires` or `depends-on` field, so this dependency is enforced only by the prerequisite instruction in each skill's SKILL.md body.
-
 **No live sync with Git.** After importing through the web UI, skills are copied into your Manus account. Changes pushed to this repository will not propagate automatically. To pick up updates, you must re-import each skill individually or use the `gsd-update` skill from within a Manus session.
 
 **No bulk import.** The Manus web UI imports one skill at a time. There is no batch or monorepo import option. Each of the URLs above must be imported separately.
@@ -83,6 +72,17 @@ Or use `gsd-manager-mode` to let Manus orchestrate the entire flow autonomously.
 
 ## Architecture
 
+### Self-Contained Skills
+
+Each skill is a fully independent, self-contained package that includes:
+
+- **SKILL.md** — The skill's instructions and workflow
+- **scripts/** — Python scripts needed by the skill (e.g., `gsd_commit.py`, `gsd_state.py`, `gsd_roadmap.py`)
+- **references/** — Convention documentation tailored to the skill's needs (`gsd-conventions.md`)
+- **templates/** — File templates used by the skill (where applicable)
+
+Shared Python scripts (`gsd_commit.py`, `gsd_init.py`, `gsd_roadmap.py`, `gsd_state.py`) are distributed into every skill that uses them. This means each skill works independently without requiring any other skill to be installed.
+
 ### Conversion from GSD
 
 The original GSD framework uses a 3-layer architecture:
@@ -90,14 +90,16 @@ The original GSD framework uses a 3-layer architecture:
 - **57 slash-commands** (thin dispatchers) — consolidated into skill trigger patterns
 - **65 workflow files** (actual logic) — converted to SKILL.md procedural knowledge
 - **18 agent definitions** (subagent personas) — eliminated; Manus handles everything in its own context
-- **17 Node.js CJS scripts** (tooling) — ported to 5 shared Python scripts in `gsd-core`
+- **17 Node.js CJS scripts** (tooling) — ported to 4 shared Python scripts distributed across skills
 - **35+ templates** — preserved as Manus skill templates
 
 ### Key Design Decisions
 
 **No subagents.** GSD spawns subagents for research, planning, and verification. Manus handles all work in its own context, using native tools (`search`, `browser`, `map`, `plan`) instead.
 
-**Python over Node.js.** GSD's CJS scripts are ported to Python for Manus sandbox compatibility. The 5 shared scripts in `gsd-core/scripts/` replace 17 CJS files.
+**Python over Node.js.** GSD's CJS scripts are ported to Python for Manus sandbox compatibility. The 4 shared scripts replace 17 CJS files.
+
+**Self-contained over shared core.** Each skill carries its own copy of the scripts and convention references it needs, ensuring any skill can be imported and used independently.
 
 **`.gsd/` over `.planning/`.** The project state directory is renamed from GSD's `.planning/` to `.gsd/` to avoid confusion with other tools.
 
@@ -107,42 +109,60 @@ The original GSD framework uses a 3-layer architecture:
 
 ```
 skills/
-├── gsd-core/                  # Shared foundation
-│   ├── SKILL.md
-│   ├── scripts/               # 5 shared Python scripts
-│   ├── references/            # Directory structure spec
-│   └── templates/             # STATE.md, ROADMAP.md, config.json
 ├── gsd-project-setup/         # Project initialization
 │   ├── SKILL.md
-│   ├── references/            # Questioning techniques
+│   ├── scripts/               # gsd_init.py, gsd_commit.py, gsd_state.py
+│   ├── references/            # gsd-conventions.md, questioning.md
 │   └── templates/             # PROJECT.md, REQUIREMENTS.md
 ├── gsd-phase-planner/         # Phase planning
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_roadmap.py, gsd_commit.py, gsd_state.py
+│   └── references/            # gsd-conventions.md
 ├── gsd-phase-executor/        # Phase execution
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_roadmap.py, gsd_commit.py, gsd_state.py
+│   └── references/            # gsd-conventions.md
 ├── gsd-milestone-manager/     # Milestone lifecycle
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_roadmap.py, gsd_commit.py, gsd_state.py
+│   └── references/            # gsd-conventions.md
 ├── gsd-code-reviewer/         # Code review and verification
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_commit.py, gsd_roadmap.py
+│   └── references/            # gsd-conventions.md
 ├── gsd-debugger/              # Debugging workflows
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_state.py
+│   └── references/            # gsd-conventions.md
 ├── gsd-testing/               # Test generation and todos
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/            # gsd-conventions.md
 ├── gsd-research/              # Research workflows
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_commit.py, gsd_roadmap.py
+│   └── references/            # gsd-conventions.md
 ├── gsd-session-manager/       # Session management
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_state.py, gsd_commit.py, gsd_roadmap.py
+│   └── references/            # gsd-conventions.md
 ├── gsd-workspace-manager/     # Workspace management
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_state.py, gsd_commit.py
+│   └── references/            # gsd-conventions.md
 ├── gsd-ui-developer/          # UI/frontend workflows
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── references/            # gsd-conventions.md
 ├── gsd-git-shipper/           # Git shipping workflows
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_commit.py, gsd_roadmap.py, gsd_state.py
+│   └── references/            # gsd-conventions.md
 ├── gsd-manager-mode/          # Autonomous orchestration
-│   └── SKILL.md
+│   ├── SKILL.md
+│   ├── scripts/               # gsd_state.py, gsd_roadmap.py
+│   └── references/            # gsd-conventions.md
 └── gsd-update/                # Upstream sync
     ├── SKILL.md
-    └── scripts/check_upstream.py
+    └── scripts/               # check_upstream.py
 ```
 
 ## Updating from Upstream
